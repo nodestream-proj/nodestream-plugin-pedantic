@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "nodestream-plugin-pedantic"
+version = "0.8.0"
+description = "A nodestream plugin that provides a series of audits to ensure high quality and consistent nodestream projects."
+authors = ["Zach Probst <Zach_Probst@intuit.com>"]
+packages = [{include = "nodestream_plugin_pedantic"}]
+license = "GPL-3.0-only"
+
+readme = "README.md"
+homepage = "https://github.com/nodestream-proj/nodestream"
+repository = "https://github.com/nodestream-proj/nodestream-plugin-pedantic"
+documentation = "https://nodestream-proj.github.io/nodestream-plugin-pedantic"
+
+keywords = ["etl", "neo4j", "declarative", "data", "kafka", "ingest", "nodestream"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Natural Language :: English",
+    "Topic :: Database"
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+nodestream = "^0.8.0"
+inflection = "^0.5.1"
+
+[tool.poetry.plugins."nodestream.plugins"]
+audits = "nodestream_plugin_pedantic.audits"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-mock = "^3.11.1"
+ruff = "^0.0.284"
+isort = "^5.12.0"
+black = "^23.7.0"
+pytest-cov = "^4.1.0"
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+ignore = ["E501"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
