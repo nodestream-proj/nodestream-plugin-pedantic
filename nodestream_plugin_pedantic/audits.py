@@ -2,8 +2,7 @@ from typing import Tuple
 
 from inflection import camelize, dasherize, singularize, underscore
 from nodestream.project import PipelineDefinition, Project
-from nodestream.project.audits import Audit
-from nodestream.project.audits.audit_printer import AuditPrinter
+from nodestream.project.audits import Audit, AuditPrinter
 from nodestream.schema.schema import GraphObjectShape, GraphSchema
 
 
