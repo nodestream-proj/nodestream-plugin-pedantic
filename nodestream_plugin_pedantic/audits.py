@@ -44,7 +44,7 @@ class PedanticAudit(Audit):
 
     def fail_property_name(self, name: str, expected: str):
         self.failed_properties.add(name)
-        self.failure(f"Property {name} is not camel case. Suggestion: {expected}")
+        self.failure(f"Property {name} is not snake case. Suggestion: {expected}")
 
     def fail_node_type(self, name: str, expected: str):
         self.failed_node_types.add(name)
@@ -112,3 +112,5 @@ class PedanticAudit(Audit):
     async def run(self, project: Project):
         self.check_pipelines(project)
         self.check_schema(project.get_schema())
+        if self.failure_count == 0:
+            self.success("Project has no pedantic issues")
