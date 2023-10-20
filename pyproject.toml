@@ -4,7 +4,7 @@ version = "0.8.0"
 description = "A nodestream plugin that provides a series of audits to ensure high quality and consistent nodestream projects."
 authors = ["Zach Probst <Zach_Probst@intuit.com>"]
 packages = [{include = "nodestream_plugin_pedantic"}]
-license = "GPL-3.0-only"
+license = "Apache-2.0"
 
 readme = "README.md"
 homepage = "https://github.com/nodestream-proj/nodestream"
@@ -17,7 +17,6 @@ classifiers = [
     "Environment :: Console",
     "Intended Audience :: Developers",
     "Intended Audience :: Information Technology",
-    "License :: OSI Approved :: GNU Affero General Public License v3",
     "Natural Language :: English",
     "Topic :: Database"
 ]
