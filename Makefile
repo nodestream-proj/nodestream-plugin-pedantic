@@ -9,8 +9,6 @@ clean-pyc:
 	find . -name '*.pyo' -exec rm -rf {} +
 	find . -name '*~' -exec rm -rf {} +
 	find . -name '__pycache__' -exec rm -rf {} +
-	rm -rf dist/
-	rm -rf .ruff_cache/
 
 .PHONY: clean-test
 clean-test:
@@ -20,6 +18,8 @@ clean-test:
 	rm -rf .reports
 	rm -rf htmlcov/
 	rm -rf .pytest_cache
+	rm -rf dist/
+	rm -rf .ruff_cache/
 
 .PHONY: clean
 clean: clean-pyc clean-test
