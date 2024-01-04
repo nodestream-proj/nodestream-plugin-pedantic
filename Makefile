@@ -18,8 +18,6 @@ clean-test:
 	rm -rf .reports
 	rm -rf htmlcov/
 	rm -rf .pytest_cache
-	rm -rf dist/
-	rm -rf .ruff_cache/
 
 .PHONY: clean
 clean: clean-pyc clean-test
@@ -29,18 +27,14 @@ venv: poetry.lock
 
 .PHONY: format
 format: venv
-	poetry run black nodestream_plugin_pedantic tests
-	poetry run isort nodestream_plugin_pedantic tests
+	poetry run black nodestream tests
+	poetry run isort nodestream tests
 
 .PHONY: lint
 lint: venv
-	poetry run black nodestream_plugin_pedantic tests --check
-	poetry run ruff nodestream_plugin_pedantic tests
+	poetry run black nodestream tests --check
+	poetry run ruff nodestream tests
 
 .PHONY: test-unit
 test-unit: venv
-	poetry run pytest -m "not e2e"
-
-.PHONY: test-e2e
-test-e2e: venv
-	poetry run pytest -m "e2e"
+	poetry run pytest
