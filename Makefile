@@ -39,8 +39,4 @@ lint: venv
 
 .PHONY: test-unit
 test-unit: venv
-	poetry run pytest -m "not e2e"
-
-.PHONY: test-e2e
-test-e2e: venv
-	poetry run pytest -m "e2e"
+	poetry run pytest
