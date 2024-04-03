@@ -1,14 +1,13 @@
 import pytest
 from nodestream.project.audits import AuditPrinter
-from nodestream.schema.schema import (
+from nodestream.schema.state import (
+    Adjacency,
+    AdjacencyCardinality,
     Cardinality,
-    GraphObjectShape,
-    GraphObjectType,
-    GraphSchema,
-    KnownTypeMarker,
-    PresentRelationship,
+    GraphObjectSchema,
     PropertyMetadata,
-    PropertyMetadataSet,
+    PropertyType,
+    Schema,
 )
 
 from nodestream_plugin_pedantic.audits import (
@@ -22,64 +21,49 @@ from nodestream_plugin_pedantic.audits import (
 
 @pytest.fixture
 def basic_schema():
-    return GraphSchema(
-        [
-            GraphObjectShape(
-                GraphObjectType.NODE,
-                KnownTypeMarker("person"),
-                PropertyMetadataSet(
-                    {
-                        "nameOfPerson": PropertyMetadata("name"),
-                        "age": PropertyMetadata("age"),
-                    }
-                ),
-            ),
-            GraphObjectShape(
-                GraphObjectType.NODE,
-                KnownTypeMarker("Organization"),
-                PropertyMetadataSet(
-                    {
-                        "name": PropertyMetadata("name"),
-                        "industry": PropertyMetadata("industry"),
-                    }
-                ),
-            ),
-            GraphObjectShape(
-                GraphObjectType.RELATIONSHIP,
-                KnownTypeMarker("best_friend_of"),
-                PropertyMetadataSet(
-                    {
-                        "since": PropertyMetadata("since"),
-                    }
-                ),
-            ),
-            GraphObjectShape(
-                GraphObjectType.RELATIONSHIP,
-                KnownTypeMarker("HAS_EMPLOYEE"),
-                PropertyMetadataSet(
-                    {
-                        "since": PropertyMetadata("since"),
-                    }
-                ),
-            ),
-        ],
-        [
-            PresentRelationship(
-                KnownTypeMarker("Person"),
-                KnownTypeMarker("Person"),
-                KnownTypeMarker("BEST_FRIEND_OF"),
-                from_side_cardinality=Cardinality.SINGLE,
-                to_side_cardinality=Cardinality.MANY,
-            ),
-            PresentRelationship(
-                KnownTypeMarker("Organization"),
-                KnownTypeMarker("Person"),
-                KnownTypeMarker("HAS_EMPLOYEE"),
-                from_side_cardinality=Cardinality.MANY,
-                to_side_cardinality=Cardinality.MANY,
-            ),
-        ],
+    schema = Schema()
+    person = GraphObjectSchema(
+        name="person",
+        properties={
+            "nameOfPerson": PropertyMetadata(PropertyType.STRING, is_key=True),
+            "age": PropertyMetadata(PropertyType.INTEGER),
+        },
     )
+    organization = GraphObjectSchema(
+        name="Organization",
+        properties={
+            "name": PropertyMetadata(PropertyType.STRING),
+            "industry": PropertyMetadata(PropertyType.STRING),
+        },
+    )
+    best_friend_of = GraphObjectSchema(
+        name="best_friend_of",
+        properties={
+            "since": PropertyMetadata(PropertyType.DATETIME),
+        },
+    )
+    has_employee = GraphObjectSchema(
+        name="HAS_EMPLOYEE",
+        properties={
+            "since": PropertyMetadata(PropertyType.DATETIME),
+        },
+    )
+
+    schema.put_node_type(person)
+    schema.put_node_type(organization)
+    schema.put_relationship_type(best_friend_of)
+    schema.put_relationship_type(has_employee)
+
+    schema.add_adjacency(
+        adjacency=Adjacency("Person", "Person", "BEST_FRIEND_OF"),
+        cardinality=AdjacencyCardinality(Cardinality.SINGLE, Cardinality.MANY),
+    )
+    schema.add_adjacency(
+        adjacency=Adjacency("Organization", "Person", "HAS_EMPLOYEE"),
+        cardinality=AdjacencyCardinality(Cardinality.MANY, Cardinality.MANY),
+    )
+
+    return schema
 
 
 @pytest.mark.parametrize(
