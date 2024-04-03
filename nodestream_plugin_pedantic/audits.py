@@ -3,7 +3,7 @@ from typing import Tuple
 from inflection import camelize, dasherize, singularize, underscore
 from nodestream.project import PipelineDefinition, Project
 from nodestream.project.audits import Audit, AuditPrinter
-from nodestream.schema.schema import GraphObjectShape, GraphSchema
+from nodestream.schema.state import GraphObjectSchema, Schema
 
 
 def check_camel_case(name: str) -> Tuple[bool, str]:
@@ -64,14 +64,14 @@ class PedanticAudit(Audit):
         self.failed_pipelines.add(name)
         self.failure(f"Pipeline {name} is not lower dash case. Suggestion: {expected}")
 
-    def check_property_names(self, shape: GraphObjectShape):
-        for prop in shape.properties.properties:
+    def check_property_names(self, shape: GraphObjectSchema):
+        for prop in shape.properties:
             is_camel_case, suggestion = check_snake_case(prop)
             if not is_camel_case:
                 self.fail_property_name(prop, suggestion)
 
-    def check_node_type(self, shape: GraphObjectShape):
-        node_type = shape.object_type.type
+    def check_node_type(self, shape: GraphObjectSchema):
+        node_type = shape.name
         is_camel_case, camel_case = check_camel_case(node_type)
         is_singular, singular = check_singularity(node_type)
         if not is_camel_case:
@@ -79,8 +79,8 @@ class PedanticAudit(Audit):
         if not is_singular:
             self.fail_node_singularity(node_type, singular)
 
-    def check_relationship_type(self, shape: GraphObjectShape):
-        relationship_type = shape.object_type.type
+    def check_relationship_type(self, shape: GraphObjectSchema):
+        relationship_type = shape.name
         is_camel_case, suggestion = check_snake_case(relationship_type, upper=True)
         if not is_camel_case:
             self.fail_relationship_type(relationship_type, suggestion)
@@ -90,17 +90,17 @@ class PedanticAudit(Audit):
         if not is_lower_dash_case:
             self.fail_pipeline_definition(pipeline.name, suggestion)
 
-    def check_nodes(self, schema: GraphSchema):
-        for shape in schema.known_node_types():
+    def check_nodes(self, schema: Schema):
+        for shape in schema.nodes:
             self.check_node_type(shape)
             self.check_property_names(shape)
 
-    def check_relationships(self, schema: GraphSchema):
-        for shape in schema.known_relationship_types():
+    def check_relationships(self, schema: Schema):
+        for shape in schema.relationships:
             self.check_relationship_type(shape)
             self.check_property_names(shape)
 
-    def check_schema(self, schema: GraphSchema):
+    def check_schema(self, schema: Schema):
         self.check_nodes(schema)
         self.check_relationships(schema)
 
