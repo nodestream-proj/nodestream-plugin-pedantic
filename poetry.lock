@@ -723,13 +723,13 @@ files = [
 
 [[package]]
 name = "nodestream"
-version = "0.13.0b1"
+version = "0.13.0"
 description = "A Fast, Declarative ETL for Graph Databases."
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "nodestream-0.13.0b1-py3-none-any.whl", hash = "sha256:5699490c47d0f1dedfa7a25425f4037c358511b1f147bced88783e8057cbc7b3"},
-    {file = "nodestream-0.13.0b1.tar.gz", hash = "sha256:7116b6fc5060c66bf818d79c125df8ab6919b02ccedb0e3c0ed28cbe8e4466a2"},
+    {file = "nodestream-0.13.0-py3-none-any.whl", hash = "sha256:f3d0fc4264492288415d95236b9437d9c789a5de49598b5dc1aae834c44a5dc1"},
+    {file = "nodestream-0.13.0.tar.gz", hash = "sha256:93ab9802c3c1e9b7efc40bc730ed6c3c67d21ff982717c15c7040a74fc3f942c"},
 ]
 
 [package.dependencies]
@@ -1527,4 +1527,4 @@ test = ["Cython (>=0.29.36,<0.30.0)", "aiohttp (==3.9.0b0)", "aiohttp (>=3.8.1)"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "60ad46742d90dad66af89a526813967505cbed48c591271a004656fbc7cfa31e"
+content-hash = "5f0566bce8dab67c8609e3c3464cdfa663555cff38a398481b3d6c7544032e6e"
