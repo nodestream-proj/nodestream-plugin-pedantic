@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nodestream-plugin-pedantic"
-version = "0.13.0"
+version = "0.14.0"
 description = "A nodestream plugin that provides a series of audits to ensure high quality and consistent nodestream projects."
 authors = ["Zach Probst <Zach_Probst@intuit.com>"]
 packages = [{include = "nodestream_plugin_pedantic"}]
@@ -23,7 +23,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-nodestream = "^0.13.0"
+nodestream = "^0.14.0"
 inflection = "^0.5.1"
 
 [tool.poetry.plugins."nodestream.plugins"]
